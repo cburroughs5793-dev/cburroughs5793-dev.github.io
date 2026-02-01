@@ -441,14 +441,16 @@
             </div>
 
             <div class="experience-item">
-                <h3>Differential Drive Robot Simulation</h3>
-                <p class="company">ROS, Gazebo, RViz</p>
+                <h3>Differential Drive Robot — ROS1 to ROS2 Migration</h3>
+                <p class="company">ROS2 Humble, Gz Sim, RViz2</p>
                 <p class="date">Personal Project</p>
                 <ul>
                     <li>Designed and simulated a differential drive mobile robot using ROS, Gazebo, and RViz</li>
-                    <li>Built and configured URDF models, defining links, joints, and coordinate frames</li>
-                    <li>Validated robot kinematics, transforms (TF), and motion control through simulation</li>
-                    <li>Debugged frame alignment and motion behavior in simulated environments</li>
+                    <li>Migrated full robot stack from ROS1 Noetic to ROS2 Humble with new Gazebo (Gz Sim)</li>
+                    <li>Converted URDF Gazebo plugins from Classic to Gz Sim architecture</li>
+                    <li>Rewrote XML launch files as Python launch files with proper sequencing</li>
+                    <li>Configured ros_gz_bridge for topic translation between Gz Sim and ROS2</li>
+                    <li>Documented migration process including common pitfalls and solutions</li>
                 </ul>
             </div>
         </div>
@@ -483,6 +485,13 @@
     <section>
         <div class="container">
             <h2>Writing</h2>
+            <div class="experience-item">
+                <a href="blog/ros1-to-ros2-migration.html" style="text-decoration: none;">
+                    <h3 style="color: #1a1a2e;">Migrating a Differential Drive Robot from ROS1 to ROS2 Humble</h3>
+                </a>
+                <p class="date">February 2026 · 10 min read</p>
+                <p style="color: #555; margin-top: 8px;">ROS1 Noetic hits end-of-life in 2025. I migrated my diff drive robot to ROS2 Humble with the new Gazebo (Gz Sim). Here's everything that changed, what broke, and how to fix it.</p>
+            </div>
             <div class="experience-item">
                 <a href="blog/debugging-rtk-gps.html" style="text-decoration: none;">
                     <h3 style="color: #1a1a2e;">How I Debug RTK GPS Issues on Deployed Robots</h3>

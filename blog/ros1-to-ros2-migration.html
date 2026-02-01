@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Migrating a Differential Drive Robot from ROS1 to ROS2 Humble | Christopher Burroughs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: #1a1a2e;
+            background: #fafafa;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 24px 0;
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .header a:hover {
+            color: #4ecca3;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 64px 0;
+        }
+
+        .hero h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+
+        .meta {
+            color: #a0a0a0;
+            font-size: 0.95rem;
+        }
+
+        .meta span {
+            color: #4ecca3;
+        }
+
+        article {
+            background: white;
+            padding: 48px 24px;
+            margin-top: -32px;
+            border-radius: 12px 12px 0 0;
+            position: relative;
+        }
+
+        article .container {
+            padding: 0;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-top: 40px;
+            margin-bottom: 16px;
+            color: #1a1a2e;
+        }
+
+        h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-top: 32px;
+            margin-bottom: 12px;
+        }
+
+        p {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        ul, ol {
+            margin-bottom: 20px;
+            margin-left: 24px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-family: 'SF Mono', Monaco, monospace;
+        }
+
+        pre {
+            background: #1a1a2e;
+            color: #e0e0e0;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 24px;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        .highlight {
+            background: #e8f5e9;
+            border-left: 4px solid #4ecca3;
+            padding: 16px 20px;
+            margin: 24px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .highlight p {
+            margin: 0;
+        }
+
+        .warning {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 16px 20px;
+            margin: 24px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .warning p {
+            margin: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 24px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .cta {
+            background: #f8f9fa;
+            padding: 32px;
+            border-radius: 12px;
+            margin-top: 48px;
+            text-align: center;
+        }
+
+        .cta h3 {
+            margin-top: 0;
+        }
+
+        .cta a {
+            display: inline-block;
+            background: #4ecca3;
+            color: #1a1a2e;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 12px;
+        }
+
+        footer {
+            background: #1a1a2e;
+            color: #888;
+            text-align: center;
+            padding: 24px;
+            font-size: 0.85rem;
+        }
+
+        footer a {
+            color: #4ecca3;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="../index.html">← Back to Portfolio</a>
+            <a href="../resume.html">Resume</a>
+        </div>
+    </header>
+
+    <div class="hero">
+        <div class="container">
+            <h1>Migrating a Differential Drive Robot from ROS1 to ROS2 Humble</h1>
+            <p class="meta">By <span>Christopher Burroughs</span> · February 2026 · 10 min read</p>
+        </div>
+    </div>
+
+    <article>
+        <div class="container">
+            <p><strong>ROS1 Noetic hits end-of-life in 2025. If you're still running ROS1, the clock is ticking.</strong></p>
+            
+            <p>I recently migrated my differential drive robot simulation from ROS1 (Noetic) to ROS2 (Humble) with the new Gazebo (Ignition/Gz Sim). This post documents the entire process — what changed, what broke, and how I fixed it.</p>
+
+            <p>If you're planning a similar migration, this should save you some headaches.</p>
+
+            <h2>Why Migrate Now?</h2>
+
+            <ul>
+                <li><strong>ROS1 Noetic EOL:</strong> May 2025 — no more updates or security patches</li>
+                <li><strong>ROS2 Humble is LTS:</strong> Supported until 2027, stable and production-ready</li>
+                <li><strong>New Gazebo (Gz Sim):</strong> Better performance, modern architecture, active development</li>
+                <li><strong>Industry adoption:</strong> Most new robotics projects are ROS2-native</li>
+            </ul>
+
+            <h2>The Big Picture: What's Different</h2>
+
+            <table>
+                <tr>
+                    <th>Component</th>
+                    <th>ROS1</th>
+                    <th>ROS2</th>
+                </tr>
+                <tr>
+                    <td>Build system</td>
+                    <td>catkin</td>
+                    <td>colcon</td>
+                </tr>
+                <tr>
+                    <td>Package format</td>
+                    <td>package.xml v2</td>
+                    <td>package.xml v3</td>
+                </tr>
+                <tr>
+                    <td>Launch files</td>
+                    <td>XML (.launch)</td>
+                    <td>Python (.launch.py)</td>
+                </tr>
+                <tr>
+                    <td>Simulator</td>
+                    <td>Gazebo Classic</td>
+                    <td>Gz Sim (Ignition)</td>
+                </tr>
+                <tr>
+                    <td>Message middleware</td>
+                    <td>TCPROS</td>
+                    <td>DDS</td>
+                </tr>
+                <tr>
+                    <td>Node execution</td>
+                    <td>rosrun, roslaunch</td>
+                    <td>ros2 run, ros2 launch</td>
+                </tr>
+            </table>
+
+            <h2>Step 1: Setting Up the ROS2 Workspace</h2>
+
+            <p>First, install ROS2 Humble and the new Gazebo:</p>
+
+            <pre><code># Install ROS2 Humble (Ubuntu 22.04)
+sudo apt install ros-humble-desktop
+
+# Install Gz Sim (formerly Ignition Gazebo)
+sudo apt install ros-humble-ros-gz
+
+# Source the workspace
+source /opt/ros/humble/setup.bash</code></pre>
+
+            <p>Create a new workspace structure:</p>
+
+            <pre><code>mkdir -p ~/ros2_ws/src
+cd ~/ros2_ws/src
+
+# Create your robot package
+ros2 pkg create --build-type ament_cmake my_diff_drive_robot</code></pre>
+
+            <div class="highlight">
+                <p><strong>Tip:</strong> Don't try to convert your ROS1 workspace in-place. Start fresh with ROS2 and migrate files over. It's cleaner and you'll understand what's actually changing.</p>
+            </div>
+
+            <h2>Step 2: Migrating the URDF</h2>
+
+            <p>Good news: URDF files are mostly compatible. Bad news: Gazebo plugins are completely different.</p>
+
+            <h3>The Robot Description (Mostly Unchanged)</h3>
+
+            <p>Your links, joints, and visual/collision geometry stay the same:</p>
+
+            <pre><code>&lt;?xml version="1.0"?&gt;
+&lt;robot name="diff_drive_robot" xmlns:xacro="http://www.ros.org/wiki/xacro"&gt;
+  
+  &lt;!-- Base Link --&gt;
+  &lt;link name="base_link"&gt;
+    &lt;visual&gt;
+      &lt;geometry&gt;
+        &lt;box size="0.3 0.2 0.1"/&gt;
+      &lt;/geometry&gt;
+    &lt;/visual&gt;
+    &lt;collision&gt;
+      &lt;geometry&gt;
+        &lt;box size="0.3 0.2 0.1"/&gt;
+      &lt;/geometry&gt;
+    &lt;/collision&gt;
+    &lt;inertial&gt;
+      &lt;mass value="5.0"/&gt;
+      &lt;inertia ixx="0.02" ixy="0" ixz="0" iyy="0.02" iyz="0" izz="0.02"/&gt;
+    &lt;/inertial&gt;
+  &lt;/link&gt;
+
+  &lt;!-- Wheels, joints, etc. remain similar --&gt;
+  
+&lt;/robot&gt;</code></pre>
+
+            <h3>Gazebo Plugins (Completely Different)</h3>
+
+            <p>This is where the real work is. ROS1 Gazebo Classic plugins don't work in Gz Sim.</p>
+
+            <p><strong>ROS1 (Gazebo Classic):</strong></p>
+
+            <pre><code>&lt;!-- OLD: Don't use this in ROS2 --&gt;
+&lt;gazebo&gt;
+  &lt;plugin name="diff_drive" filename="libgazebo_ros_diff_drive.so"&gt;
+    &lt;ros&gt;
+      &lt;namespace&gt;/&lt;/namespace&gt;
+    &lt;/ros&gt;
+    &lt;left_joint&gt;left_wheel_joint&lt;/left_joint&gt;
+    &lt;right_joint&gt;right_wheel_joint&lt;/right_joint&gt;
+    &lt;wheel_separation&gt;0.2&lt;/wheel_separation&gt;
+    &lt;wheel_diameter&gt;0.1&lt;/wheel_diameter&gt;
+    &lt;command_topic&gt;cmd_vel&lt;/command_topic&gt;
+    &lt;odometry_topic&gt;odom&lt;/odometry_topic&gt;
+  &lt;/plugin&gt;
+&lt;/gazebo&gt;</code></pre>
+
+            <p><strong>ROS2 (Gz Sim):</strong></p>
+
+            <pre><code>&lt;!-- NEW: Gz Sim differential drive plugin --&gt;
+&lt;gazebo&gt;
+  &lt;plugin filename="gz-sim-diff-drive-system" 
+          name="gz::sim::systems::DiffDrive"&gt;
+    &lt;left_joint&gt;left_wheel_joint&lt;/left_joint&gt;
+    &lt;right_joint&gt;right_wheel_joint&lt;/right_joint&gt;
+    &lt;wheel_separation&gt;0.2&lt;/wheel_separation&gt;
+    &lt;wheel_radius&gt;0.05&lt;/wheel_radius&gt;
+    &lt;topic&gt;cmd_vel&lt;/topic&gt;
+    &lt;odom_topic&gt;odom&lt;/odom_topic&gt;
+    &lt;frame_id&gt;odom&lt;/frame_id&gt;
+    &lt;child_frame_id&gt;base_link&lt;/child_frame_id&gt;
+    &lt;odom_publish_frequency&gt;50&lt;/odom_publish_frequency&gt;
+  &lt;/plugin&gt;
+&lt;/gazebo&gt;</code></pre>
+
+            <div class="warning">
+                <p><strong>Gotcha:</strong> Notice <code>wheel_diameter</code> became <code>wheel_radius</code>. I spent an hour debugging why my robot was moving at half speed. Check your units!</p>
+            </div>
+
+            <h2>Step 3: Migrating Launch Files</h2>
+
+            <p>ROS2 uses Python launch files instead of XML. It's more verbose but way more powerful.</p>
+
+            <p><strong>ROS1 (XML):</strong></p>
+
+            <pre><code>&lt;!-- OLD: launch/robot.launch --&gt;
+&lt;launch&gt;
+  &lt;param name="robot_description" 
+         command="$(find xacro)/xacro '$(find my_robot)/urdf/robot.urdf.xacro'"/&gt;
+  
+  &lt;include file="$(find gazebo_ros)/launch/empty_world.launch"&gt;
+    &lt;arg name="world_name" value="$(find my_robot)/worlds/test.world"/&gt;
+  &lt;/include&gt;
+  
+  &lt;node name="spawn_robot" pkg="gazebo_ros" type="spawn_model"
+        args="-urdf -model robot -param robot_description"/&gt;
+&lt;/launch&gt;</code></pre>
+
+            <p><strong>ROS2 (Python):</strong></p>
+
+            <pre><code># NEW: launch/robot.launch.py
+import os
+from ament_index_python.packages import get_package_share_directory
+from launch import LaunchDescription
+from launch.actions import IncludeLaunchDescription
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch_ros.actions import Node
+import xacro
+
+def generate_launch_description():
+    pkg_path = get_package_share_directory('my_diff_drive_robot')
+    
+    # Process URDF with xacro
+    xacro_file = os.path.join(pkg_path, 'urdf', 'robot.urdf.xacro')
+    robot_description = xacro.process_file(xacro_file).toxml()
+    
+    # Robot State Publisher
+    robot_state_pub = Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        parameters=[{'robot_description': robot_description}]
+    )
+    
+    # Gz Sim
+    gz_sim = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([
+            os.path.join(get_package_share_directory('ros_gz_sim'), 
+                        'launch', 'gz_sim.launch.py')
+        ]),
+        launch_arguments={'gz_args': '-r empty.sdf'}.items()
+    )
+    
+    # Spawn robot
+    spawn_robot = Node(
+        package='ros_gz_sim',
+        executable='create',
+        arguments=[
+            '-name', 'diff_drive_robot',
+            '-topic', 'robot_description',
+        ],
+        output='screen'
+    )
+    
+    # Bridge Gz topics to ROS2
+    bridge = Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        arguments=[
+            '/cmd_vel@geometry_msgs/msg/Twist@gz.msgs.Twist',
+            '/odom@nav_msgs/msg/Odometry@gz.msgs.Odometry',
+        ],
+        output='screen'
+    )
+    
+    return LaunchDescription([
+        robot_state_pub,
+        gz_sim,
+        spawn_robot,
+        bridge,
+    ])</code></pre>
+
+            <div class="highlight">
+                <p><strong>Key difference:</strong> Gz Sim uses its own message types internally. You need the <code>ros_gz_bridge</code> to translate between Gz messages and ROS2 messages.</p>
+            </div>
+
+            <h2>Step 4: Update package.xml and CMakeLists.txt</h2>
+
+            <p>ROS2 uses <code>ament</code> instead of <code>catkin</code>.</p>
+
+            <p><strong>package.xml:</strong></p>
+
+            <pre><code>&lt;?xml version="1.0"?&gt;
+&lt;package format="3"&gt;
+  &lt;name&gt;my_diff_drive_robot&lt;/name&gt;
+  &lt;version&gt;1.0.0&lt;/version&gt;
+  &lt;description&gt;Differential drive robot for ROS2 Humble&lt;/description&gt;
+  &lt;maintainer email="cburroughs12@yahoo.com"&gt;Christopher Burroughs&lt;/maintainer&gt;
+  &lt;license&gt;MIT&lt;/license&gt;
+
+  &lt;buildtool_depend&gt;ament_cmake&lt;/buildtool_depend&gt;
+  
+  &lt;depend&gt;rclcpp&lt;/depend&gt;
+  &lt;depend&gt;robot_state_publisher&lt;/depend&gt;
+  &lt;depend&gt;ros_gz_sim&lt;/depend&gt;
+  &lt;depend&gt;ros_gz_bridge&lt;/depend&gt;
+  &lt;depend&gt;xacro&lt;/depend&gt;
+
+  &lt;export&gt;
+    &lt;build_type&gt;ament_cmake&lt;/build_type&gt;
+  &lt;/export&gt;
+&lt;/package&gt;</code></pre>
+
+            <p><strong>CMakeLists.txt:</strong></p>
+
+            <pre><code>cmake_minimum_required(VERSION 3.8)
+project(my_diff_drive_robot)
+
+find_package(ament_cmake REQUIRED)
+
+# Install directories
+install(DIRECTORY
+  urdf
+  launch
+  worlds
+  config
+  DESTINATION share/${PROJECT_NAME}
+)
+
+ament_package()</code></pre>
+
+            <h2>Step 5: Build and Test</h2>
+
+            <pre><code># Build the workspace
+cd ~/ros2_ws
+colcon build --symlink-install
+
+# Source the workspace
+source install/setup.bash
+
+# Launch the simulation
+ros2 launch my_diff_drive_robot robot.launch.py</code></pre>
+
+            <h2>Common Issues I Hit</h2>
+
+            <h3>1. TF Frames Not Publishing</h3>
+            <p><strong>Problem:</strong> Odometry worked but TF tree was broken.</p>
+            <p><strong>Solution:</strong> The Gz Sim diff_drive plugin publishes TF differently. I had to add the joint_state_publisher and make sure the bridge was forwarding <code>/tf</code> correctly.</p>
+
+            <h3>2. cmd_vel Not Reaching the Robot</h3>
+            <p><strong>Problem:</strong> Teleop was publishing but robot didn't move.</p>
+            <p><strong>Solution:</strong> Topic type mismatch. The bridge wasn't configured correctly. Gz Sim uses <code>gz.msgs.Twist</code>, ROS2 uses <code>geometry_msgs/msg/Twist</code>. The bridge config syntax is specific.</p>
+
+            <h3>3. Model Not Spawning</h3>
+            <p><strong>Problem:</strong> Gz Sim started but robot didn't appear.</p>
+            <p><strong>Solution:</strong> The spawn node was running before Gz Sim was ready. Added a delay or used launch events to sequence properly.</p>
+
+            <h3>4. Inertia Warnings</h3>
+            <p><strong>Problem:</strong> Console flooded with inertia warnings.</p>
+            <p><strong>Solution:</strong> Gz Sim is stricter about physics. I had to add proper inertial values to every link, even small ones.</p>
+
+            <h2>Results</h2>
+
+            <p>After the migration:</p>
+            <ul>
+                <li>Simulation runs smoother (Gz Sim is more performant)</li>
+                <li>Launch times are faster</li>
+                <li>Better integration with Nav2 and other ROS2 packages</li>
+                <li>Future-proofed for ROS2 Jazzy and beyond</li>
+            </ul>
+
+            <h2>Resources</h2>
+
+            <ul>
+                <li><a href="https://docs.ros.org/en/humble/How-To-Guides/Migrating-from-ROS1.html">Official ROS1 to ROS2 Migration Guide</a></li>
+                <li><a href="https://gazebosim.org/docs">Gz Sim Documentation</a></li>
+                <li><a href="https://github.com/ros-simulation/gazebo_ros_pkgs/wiki/ROS-2-Migration:-Gazebo-Plugins">Gazebo Plugin Migration Guide</a></li>
+            </ul>
+
+            <div class="cta">
+                <h3>Need Help Migrating to ROS2?</h3>
+                <p>I help teams migrate robotics systems from ROS1 to ROS2. Let's talk.</p>
+                <a href="mailto:cburroughs12@yahoo.com">Get In Touch</a>
+            </div>
+        </div>
+    </article>
+
+    <footer>
+        <p>© 2026 Christopher Burroughs · <a href="../index.html">Portfolio</a> · <a href="../resume.html">Resume</a></p>
+    </footer>
+</body>
+</html>
