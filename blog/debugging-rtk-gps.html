@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How I Debug RTK GPS Issues on Deployed Robots | Christopher Burroughs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: #1a1a2e;
+            background: #fafafa;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 24px 0;
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .header a:hover {
+            color: #4ecca3;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 64px 0;
+        }
+
+        .hero h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+
+        .meta {
+            color: #a0a0a0;
+            font-size: 0.95rem;
+        }
+
+        .meta span {
+            color: #4ecca3;
+        }
+
+        article {
+            background: white;
+            padding: 48px 24px;
+            margin-top: -32px;
+            border-radius: 12px 12px 0 0;
+            position: relative;
+        }
+
+        article .container {
+            padding: 0;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-top: 40px;
+            margin-bottom: 16px;
+            color: #1a1a2e;
+        }
+
+        h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-top: 32px;
+            margin-bottom: 12px;
+        }
+
+        p {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        ul, ol {
+            margin-bottom: 20px;
+            margin-left: 24px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-family: 'SF Mono', Monaco, monospace;
+        }
+
+        pre {
+            background: #1a1a2e;
+            color: #e0e0e0;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 24px;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        .highlight {
+            background: #e8f5e9;
+            border-left: 4px solid #4ecca3;
+            padding: 16px 20px;
+            margin: 24px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .highlight p {
+            margin: 0;
+        }
+
+        .cta {
+            background: #f8f9fa;
+            padding: 32px;
+            border-radius: 12px;
+            margin-top: 48px;
+            text-align: center;
+        }
+
+        .cta h3 {
+            margin-top: 0;
+        }
+
+        .cta a {
+            display: inline-block;
+            background: #4ecca3;
+            color: #1a1a2e;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 12px;
+        }
+
+        footer {
+            background: #1a1a2e;
+            color: #888;
+            text-align: center;
+            padding: 24px;
+            font-size: 0.85rem;
+        }
+
+        footer a {
+            color: #4ecca3;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="../index.html">← Back to Portfolio</a>
+            <a href="../resume.html">Resume</a>
+        </div>
+    </header>
+
+    <div class="hero">
+        <div class="container">
+            <h1>How I Debug RTK GPS Issues on Deployed Robots</h1>
+            <p class="meta">By <span>Christopher Burroughs</span> · February 2026 · 6 min read</p>
+        </div>
+    </div>
+
+    <article>
+        <div class="container">
+            <p><strong>RTK GPS is supposed to give you centimeter-level accuracy. In reality, you spend half your time figuring out why it's giving you garbage data.</strong></p>
+            
+            <p>I've spent the last few years supporting autonomous line-marking robots in the field. These machines need precise positioning to paint straight lines on sports fields — we're talking 2-3 cm accuracy. When RTK works, it's beautiful. When it doesn't, you're troubleshooting at 6 AM before a soccer game.</p>
+
+            <p>Here's the process I've developed for diagnosing RTK GPS issues on deployed robots.</p>
+
+            <h2>The First Question: Is It Actually a GPS Problem?</h2>
+
+            <p>Before diving into GPS debugging, rule out the obvious. I've seen "GPS issues" that turned out to be:</p>
+
+            <ul>
+                <li>Loose antenna cables</li>
+                <li>Motor interference (poor shielding)</li>
+                <li>Wrong coordinate frame in the navigation stack</li>
+                <li>Base station configuration drift</li>
+            </ul>
+
+            <p>My first step is always checking the basics in RViz. Is the robot's position jumping around, or is it just offset? Jumping usually means GPS. Consistent offset usually means transforms or calibration.</p>
+
+            <h2>Step 1: Check Fix Status</h2>
+
+            <p>RTK GPS reports a "fix type" that tells you how good your solution is:</p>
+
+            <ul>
+                <li><strong>No fix / Single</strong> — Basically useless for precision work (±2-5 meters)</li>
+                <li><strong>Float</strong> — Getting corrections, but not locked (±0.5-1 meter)</li>
+                <li><strong>Fix (RTK Fixed)</strong> — This is what you want (±2 cm)</li>
+            </ul>
+
+            <pre><code># Check GPS status via ROS topic
+rostopic echo /gps/fix_type
+
+# Or check NMEA sentences directly
+# Look for GGA message, field 6:
+# 4 = RTK Fixed, 5 = RTK Float, 1 = Single</code></pre>
+
+            <p>If you're stuck in Float or Single, the problem is usually corrections — either they're not arriving, or they're arriving too slowly.</p>
+
+            <h2>Step 2: Verify Correction Stream</h2>
+
+            <p>RTK needs a base station sending corrections. Most issues I see fall into three categories:</p>
+
+            <h3>1. Corrections Not Arriving</h3>
+            <ul>
+                <li>Check NTRIP connection status</li>
+                <li>Verify network connectivity (cellular signal, WiFi range)</li>
+                <li>Confirm base station is online and broadcasting</li>
+            </ul>
+
+            <h3>2. Corrections Too Old</h3>
+            <p>RTK corrections have a shelf life. If latency exceeds ~5-10 seconds, accuracy degrades. I check the "age of corrections" field in the GPS output.</p>
+
+            <pre><code># Age of differential (seconds) - should be < 5
+rostopic echo /gps/age_of_differential</code></pre>
+
+            <h3>3. Wrong Base Station</h3>
+            <p>If the robot is receiving corrections from a base station that's too far away (>30 km), accuracy suffers. I've seen this when someone accidentally connects to a public NTRIP caster with the wrong mountpoint.</p>
+
+            <h2>Step 3: Check the Physical Setup</h2>
+
+            <p>GPS is surprisingly sensitive to physical factors:</p>
+
+            <div class="highlight">
+                <p><strong>Common culprits I've found:</strong> Antenna mounted near metal (reflections), antenna cable damaged during transport, antenna not level, obstructions blocking sky view (trees, buildings, the robot's own frame).</p>
+            </div>
+
+            <p>A good test: put the robot in an open field with clear sky view. If RTK works there but not at the deployment site, you have an environmental problem.</p>
+
+            <h2>Step 4: Visualize in RViz</h2>
+
+            <p>I always pull up RViz to see what the navigation stack is actually seeing:</p>
+
+            <ul>
+                <li><strong>GPS position topic</strong> — Is it updating? How often?</li>
+                <li><strong>Covariance</strong> — High covariance = GPS isn't confident</li>
+                <li><strong>TF transforms</strong> — Is the GPS frame correctly connected to base_link?</li>
+            </ul>
+
+            <p>One trick: plot the raw GPS path over time. If you see sudden jumps or drift patterns, that tells you whether it's a fix loss, multipath interference, or transform issue.</p>
+
+            <h2>Step 5: The Log Dive</h2>
+
+            <p>When all else fails, I pull logs and look for patterns:</p>
+
+            <ul>
+                <li>Does the issue happen at a specific time of day? (GPS satellite geometry changes)</li>
+                <li>Does it correlate with robot actions? (Motor noise, orientation)</li>
+                <li>Is it location-specific? (Environmental interference)</li>
+            </ul>
+
+            <p>I've solved problems by discovering that RTK dropped every time the robot turned on its paint sprayer (electrical interference) and every day at 3 PM (satellite geometry window).</p>
+
+            <h2>The Takeaway</h2>
+
+            <p>RTK GPS debugging is systematic. Start broad (is it even a GPS problem?), then narrow down (fix type → corrections → physical → environment). Keep notes on what you find — patterns emerge over deployments.</p>
+
+            <p>The robots I support now have way better uptime because we documented every failure mode and built checks into the startup routine. Boring? Yes. Effective? Absolutely.</p>
+
+            <div class="cta">
+                <h3>Need Help With Robot Navigation?</h3>
+                <p>I help teams debug and deploy autonomous systems. Let's talk.</p>
+                <a href="mailto:cburroughs12@yahoo.com">Get In Touch</a>
+            </div>
+        </div>
+    </article>
+
+    <footer>
+        <p>© 2026 Christopher Burroughs · <a href="../index.html">Portfolio</a> · <a href="../resume.html">Resume</a></p>
+    </footer>
+</body>
+</html>

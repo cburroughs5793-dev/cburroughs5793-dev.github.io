@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christopher Burroughs | Resume</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.5;
+            color: #1a1a2e;
+            background: #fff;
+            padding: 48px;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 4px;
+        }
+
+        .tagline {
+            color: #4ecca3;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .contact {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 32px;
+        }
+
+        .contact a {
+            color: #4ecca3;
+            text-decoration: none;
+        }
+
+        h2 {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid #4ecca3;
+            padding-bottom: 8px;
+            margin-top: 32px;
+            margin-bottom: 16px;
+        }
+
+        h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            margin-bottom: 4px;
+        }
+
+        .company {
+            color: #4ecca3;
+            font-weight: 500;
+        }
+
+        .date {
+            color: #888;
+            font-size: 0.85rem;
+        }
+
+        ul {
+            margin-left: 20px;
+            margin-bottom: 16px;
+        }
+
+        li {
+            margin-bottom: 6px;
+            font-size: 0.92rem;
+        }
+
+        .tech-line {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 24px;
+        }
+
+        .tech-line strong {
+            color: #1a1a2e;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .skill-category h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .skill-category p {
+            font-size: 0.85rem;
+            color: #444;
+        }
+
+        .cert-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .cert-item {
+            background: #f0f0f0;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        .print-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4ecca3;
+            color: #1a1a2e;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .print-btn:hover {
+            background: #3db892;
+        }
+
+        @media print {
+            body {
+                padding: 0;
+            }
+            .print-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="print-btn" onclick="window.print()">Download PDF</button>
+
+    <h1>Christopher Burroughs</h1>
+    <p class="tagline">Robotics Engineer | Field Autonomy · ROS · Navigation Systems</p>
+    <p class="contact">
+        Atlanta, GA · 
+        <a href="mailto:cburroughs12@yahoo.com">cburroughs12@yahoo.com</a> · 
+        <a href="https://www.linkedin.com/in/christopher-burroughs-b16679172">LinkedIn</a> · 
+        <a href="https://cburroughs5793-dev.github.io">Portfolio</a>
+    </p>
+
+    <h2>Professional Summary</h2>
+    <p>Robotics engineer with hands-on experience supporting, debugging, and improving autonomous robotic systems in production environments. Strong background in ROS, Linux, C++, Python, and robot navigation software, with real-world experience working on deployed robots using RTK GPS, sensor integration, and visualization tools.</p>
+
+    <h2>Experience</h2>
+    
+    <div class="job-header">
+        <h3>Robotics Engineer | Product & Technical Engineer</h3>
+        <span class="date">May 2022 – Present</span>
+    </div>
+    <p class="company">TinyMobileRobots — Malling, Denmark (Remote/Hybrid)</p>
+    <ul>
+        <li>Act as subject matter expert for autonomous mobile robots, supporting deployed systems using ROS, RViz, Linux, and proprietary robot management software</li>
+        <li>Debugged robot navigation, localization, and GPS-related issues in real-world field deployments using RTK GPS data and ROS visualization tools</li>
+        <li>Implemented and tested new navigation software features for TinyLineMarker Sport/Pro robots</li>
+        <li>Collaborated directly with robotics engineers and product managers to diagnose software-hardware interaction issues and improve system reliability</li>
+        <li>Supported robot bring-up, calibration, and configuration via Ubuntu-based command-line tools</li>
+        <li>Partnered with R&D teams on prototype wheel designs, spray nozzles, and motion-related hardware impacting robot behavior</li>
+        <li>Authored the company's Global Support Handbook, now used as a technical training reference and AI chatbot knowledge base</li>
+        <li>Defined and implemented operational processes across engineering and support workflows, improving service efficiency by 21%</li>
+        <li>Worked directly with Founder/CEO on technical decisions impacting robot design, software behavior, and field performance</li>
+    </ul>
+    <p class="tech-line"><strong>Technologies:</strong> ROS, RViz, C++, Python, Linux (Ubuntu), RTK GPS, Jira, Odoo</p>
+
+    <div class="job-header">
+        <h3>District Manager (Operations & Leadership)</h3>
+        <span class="date">May 2016 – May 2022</span>
+    </div>
+    <p class="company">Prime Communications — Atlanta, GA</p>
+    <ul>
+        <li>Led multi-site teams and operations; experience strengthens leadership, communication, and ownership in engineering environments</li>
+        <li>Managed performance metrics, training, and operational processes at scale</li>
+    </ul>
+
+    <div class="job-header">
+        <h3>Fabricator Apprentice</h3>
+        <span class="date">Aug 2018 – Jan 2019</span>
+    </div>
+    <p class="company">Street Approved Customs — Braselton, GA</p>
+    <ul>
+        <li>Fabricated and installed custom metal components</li>
+        <li>Designed and built brackets replacing riveted fiberglass aero components</li>
+        <li>Gained hands-on manufacturing and mechanical problem-solving experience</li>
+    </ul>
+
+    <h2>Education</h2>
+    <div class="job-header">
+        <h3>B.S. Mechanical Engineering Technology</h3>
+        <span class="date">2022</span>
+    </div>
+    <p class="company">Kennesaw State University — Concentration: Manufacturing</p>
+    <p style="font-size: 0.9rem; color: #666; margin-top: 8px;">Relevant Coursework: Tool & Jig Design, Manufacturing Facilities Layout, Machine Tool Operations, Computer-Integrated Manufacturing (CIM)</p>
+
+    <h2>Skills</h2>
+    <div class="skills-grid">
+        <div class="skill-category">
+            <h4>Robotics & Software</h4>
+            <p>ROS, RViz, Gazebo, C++, Python, MATLAB, Linux (Ubuntu), Docker</p>
+        </div>
+        <div class="skill-category">
+            <h4>Navigation & Sensors</h4>
+            <p>RTK GPS, Robot localization, SLAM, TF Transforms, System debugging</p>
+        </div>
+        <div class="skill-category">
+            <h4>Mechanical & Hardware</h4>
+            <p>SolidWorks (CSWP), AutoCAD, GD&T, DFM/DFA, 3D printing, Laser cutting</p>
+        </div>
+        <div class="skill-category">
+            <h4>Electrical</h4>
+            <p>Wiring, soldering, motor control fundamentals</p>
+        </div>
+    </div>
+
+    <h2>Certifications</h2>
+    <div class="cert-list">
+        <span class="cert-item">CSWP – Mechanical Design</span>
+        <span class="cert-item">CSWA – Rapid Manufacturing</span>
+        <span class="cert-item">Project Management Professional (PMP)</span>
+        <span class="cert-item">Lean Fundamentals (Six Sigma)</span>
+    </div>
+
+    <h2>Projects</h2>
+    <div class="job-header">
+        <h3>AI-Powered Personal Assistant</h3>
+        <span class="date">2026</span>
+    </div>
+    <p class="company">OpenClaw + Custom Workflow</p>
+    <ul>
+        <li>Built a personalized AI assistant to automate workflows and accelerate consulting work</li>
+        <li>Developing AI-assisted processes for client outreach, proposal generation, and documentation</li>
+    </ul>
+
+    <div class="job-header">
+        <h3>Differential Drive Robot Simulation</h3>
+        <span class="date">Personal Project</span>
+    </div>
+    <p class="company">ROS, Gazebo, RViz</p>
+    <ul>
+        <li>Designed and simulated a differential drive mobile robot using ROS, Gazebo, and RViz</li>
+        <li>Built URDF models, validated kinematics, transforms (TF), and motion control</li>
+    </ul>
+</body>
+</html>
