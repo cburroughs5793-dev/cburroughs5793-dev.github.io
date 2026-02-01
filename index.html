@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christopher Burroughs | Robotics Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #1a1a2e;
+            background: #fafafa;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 80px 0;
+        }
+
+        .hero h1 {
+            font-size: 2.75rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .hero .tagline {
+            font-size: 1.25rem;
+            color: #4ecca3;
+            font-weight: 500;
+            margin-bottom: 24px;
+        }
+
+        .hero .location {
+            color: #a0a0a0;
+            font-size: 0.95rem;
+            margin-bottom: 32px;
+        }
+
+        .hero .intro {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #e0e0e0;
+            max-width: 600px;
+        }
+
+        .hero .intro strong {
+            color: #4ecca3;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 64px 0;
+        }
+
+        section:nth-child(even) {
+            background: #ffffff;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 32px;
+            color: #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h2::before {
+            content: '';
+            width: 4px;
+            height: 28px;
+            background: #4ecca3;
+            border-radius: 2px;
+        }
+
+        /* What I Do */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+        }
+
+        .service-card {
+            background: #f8f9fa;
+            padding: 28px;
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
+        }
+
+        .service-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #1a1a2e;
+        }
+
+        .service-card p {
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        /* Experience */
+        .experience-item {
+            margin-bottom: 40px;
+            padding-left: 24px;
+            border-left: 2px solid #4ecca3;
+        }
+
+        .experience-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .experience-item h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1a1a2e;
+        }
+
+        .experience-item .company {
+            color: #4ecca3;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .experience-item .date {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+        }
+
+        .experience-item ul {
+            list-style: none;
+        }
+
+        .experience-item li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 8px;
+            color: #444;
+            font-size: 0.95rem;
+        }
+
+        .experience-item li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #4ecca3;
+        }
+
+        /* Skills */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 32px;
+        }
+
+        .skill-category h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 16px;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill-tag {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* Certifications */
+        .cert-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .cert-item {
+            background: #fff;
+            border: 2px solid #1a1a2e;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            text-align: center;
+            padding: 80px 0;
+        }
+
+        .cta h2 {
+            justify-content: center;
+            color: white;
+            margin-bottom: 16px;
+        }
+
+        .cta h2::before {
+            display: none;
+        }
+
+        .cta p {
+            color: #c0c0c0;
+            margin-bottom: 32px;
+            font-size: 1.1rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary {
+            background: #4ecca3;
+            color: #1a1a2e;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a2e;
+            color: #888;
+            text-align: center;
+            padding: 24px;
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .hero {
+                padding: 60px 0;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero .tagline {
+                font-size: 1.1rem;
+            }
+
+            section {
+                padding: 48px 0;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero -->
+    <header class="hero">
+        <div class="container">
+            <h1>Christopher Burroughs</h1>
+            <p class="tagline">Robotics Engineer | Field Autonomy · ROS · Navigation Systems</p>
+            <p class="location">📍 Atlanta, GA</p>
+            <p class="intro">
+                I debug robots in the real world, not just in simulation. Currently supporting 
+                <strong>deployed autonomous systems</strong> at TinyMobileRobots, fixing navigation, 
+                localization, and GPS issues when they actually matter.
+            </p>
+        </div>
+    </header>
+
+    <!-- What I Do -->
+    <section>
+        <div class="container">
+            <h2>What I Do</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>🤖 Robot Debugging</h3>
+                    <p>Diagnose and fix navigation, localization, and sensor issues in production autonomous systems.</p>
+                </div>
+                <div class="service-card">
+                    <h3>🛰️ GPS & Localization</h3>
+                    <p>RTK GPS integration, coordinate frame debugging, and real-world positioning accuracy.</p>
+                </div>
+                <div class="service-card">
+                    <h3>🚀 Deployment Support</h3>
+                    <p>Robot bring-up, calibration, and field configuration via Linux command-line tools.</p>
+                </div>
+                <div class="service-card">
+                    <h3>🔧 Hardware-Software Bridge</h3>
+                    <p>Debug interaction issues between sensors, motion systems, and navigation stacks.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience -->
+    <section>
+        <div class="container">
+            <h2>Experience</h2>
+            
+            <div class="experience-item">
+                <h3>Lead Product & Technical Engineer</h3>
+                <p class="company">TinyMobileRobots — Denmark (Remote/Hybrid)</p>
+                <p class="date">May 2022 – Present</p>
+                <ul>
+                    <li>Subject matter expert for deployed autonomous mobile robots using ROS, RViz, and Linux</li>
+                    <li>Debug robot navigation and RTK GPS issues in live field deployments</li>
+                    <li>Implement and test navigation software features for TinyLineMarker robots</li>
+                    <li>Collaborate with robotics engineers to diagnose software-hardware interactions</li>
+                    <li>Authored the Global Support Handbook — now used for training and AI knowledge base</li>
+                    <li>Improved service workflow efficiency by 21%</li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <h3>Fabricator Apprentice</h3>
+                <p class="company">Street Approved Customs — Braselton, GA</p>
+                <p class="date">Aug 2018 – Jan 2019</p>
+                <ul>
+                    <li>Fabricated and installed custom metal components</li>
+                    <li>Designed brackets replacing riveted fiberglass aero components</li>
+                    <li>Hands-on manufacturing and mechanical problem-solving</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills -->
+    <section>
+        <div class="container">
+            <h2>Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>Robotics & Software</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">ROS</span>
+                        <span class="skill-tag">RViz</span>
+                        <span class="skill-tag">Gazebo</span>
+                        <span class="skill-tag">C++</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Linux</span>
+                        <span class="skill-tag">Docker</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Navigation & Sensors</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">RTK GPS</span>
+                        <span class="skill-tag">Localization</span>
+                        <span class="skill-tag">SLAM</span>
+                        <span class="skill-tag">TF Transforms</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Mechanical Design</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">SolidWorks</span>
+                        <span class="skill-tag">AutoCAD</span>
+                        <span class="skill-tag">GD&T</span>
+                        <span class="skill-tag">3D Printing</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Process & Leadership</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">PMP</span>
+                        <span class="skill-tag">Lean/Six Sigma</span>
+                        <span class="skill-tag">Technical Writing</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects -->
+    <section>
+        <div class="container">
+            <h2>Projects</h2>
+            
+            <div class="experience-item">
+                <h3>AI-Powered Personal Assistant</h3>
+                <p class="company">OpenClaw + Custom Workflow</p>
+                <p class="date">2026 – Present</p>
+                <ul>
+                    <li>Built a personalized AI assistant using OpenClaw to automate workflows and accelerate consulting work</li>
+                    <li>Configured autonomous agent with memory, web research, and code generation capabilities</li>
+                    <li>Developing AI-assisted processes for client outreach, proposal generation, and project documentation</li>
+                    <li>Documenting the build process as a case study for AI-augmented engineering workflows</li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <h3>Differential Drive Robot Simulation</h3>
+                <p class="company">ROS, Gazebo, RViz</p>
+                <p class="date">Personal Project</p>
+                <ul>
+                    <li>Designed and simulated a differential drive mobile robot using ROS, Gazebo, and RViz</li>
+                    <li>Built and configured URDF models, defining links, joints, and coordinate frames</li>
+                    <li>Validated robot kinematics, transforms (TF), and motion control through simulation</li>
+                    <li>Debugged frame alignment and motion behavior in simulated environments</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications -->
+    <section>
+        <div class="container">
+            <h2>Certifications</h2>
+            <div class="cert-list">
+                <div class="cert-item">CSWP – Mechanical Design</div>
+                <div class="cert-item">CSWA – Rapid Manufacturing</div>
+                <div class="cert-item">Project Management Professional (PMP)</div>
+                <div class="cert-item">Lean Fundamentals (Six Sigma)</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education -->
+    <section>
+        <div class="container">
+            <h2>Education</h2>
+            <div class="experience-item">
+                <h3>B.S. Mechanical Engineering Technology</h3>
+                <p class="company">Kennesaw State University</p>
+                <p class="date">2022 | Concentration: Manufacturing</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <div class="container">
+            <h2>Let's Work Together</h2>
+            <p>Need help with robot deployment, debugging, or navigation systems?</p>
+            <div class="cta-buttons">
+                <a href="mailto:cburroughs12@yahoo.com" class="btn btn-primary">Get In Touch</a>
+                <a href="https://www.linkedin.com/in/christopher-burroughs-b16679172" class="btn btn-secondary">LinkedIn</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Christopher Burroughs. Built with purpose.</p>
+    </footer>
+</body>
+</html>
